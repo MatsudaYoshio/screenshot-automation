@@ -50,6 +50,6 @@ version-resolver:
       - "dependencies"
   default: patch
 template: |
-  ## Changes
+  ## What's Changed
 
   $CHANGES
