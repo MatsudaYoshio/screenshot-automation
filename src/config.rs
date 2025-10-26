@@ -129,32 +129,19 @@ mod tests {
 
     #[test]
     fn test_arrow_key_from_str_valid_left() {
-        let result = ArrowKey::from_str("left");
-        assert!(result.is_ok());
-        matches!(result.unwrap(), ArrowKey::Left);
+        assert!(matches!(ArrowKey::from_str("left"), Ok(ArrowKey::Left)));
     }
 
     #[test]
     fn test_arrow_key_from_str_valid_right() {
-        let result = ArrowKey::from_str("right");
-        assert!(result.is_ok());
-        matches!(result.unwrap(), ArrowKey::Right);
+        assert!(matches!(ArrowKey::from_str("right"), Ok(ArrowKey::Right)));
     }
 
     #[test]
     fn test_arrow_key_from_str_case_insensitive() {
-        assert!(matches!(
-            ArrowKey::from_str("LEFT").unwrap(),
-            ArrowKey::Left
-        ));
-        assert!(matches!(
-            ArrowKey::from_str("Right").unwrap(),
-            ArrowKey::Right
-        ));
-        assert!(matches!(
-            ArrowKey::from_str("LeFt").unwrap(),
-            ArrowKey::Left
-        ));
+        assert!(matches!(ArrowKey::from_str("LEFT"), Ok(ArrowKey::Left)));
+        assert!(matches!(ArrowKey::from_str("Right"), Ok(ArrowKey::Right)));
+        assert!(matches!(ArrowKey::from_str("LeFt"), Ok(ArrowKey::Left)));
     }
 
     #[test]
@@ -272,15 +259,17 @@ mod tests {
 
     #[test]
     fn test_arrow_key_invalid_returns_error() {
-        let result = ArrowKey::from_str("invalid_key");
-        assert!(result.is_err());
-        assert!(matches!(result.unwrap_err(), ConfigError::InvalidKey));
+        assert!(matches!(
+            ArrowKey::from_str("invalid_key"),
+            Err(ConfigError::InvalidKey)
+        ));
     }
 
     #[test]
     fn test_arrow_key_empty_string_returns_error() {
-        let result = ArrowKey::from_str("");
-        assert!(result.is_err());
-        assert!(matches!(result.unwrap_err(), ConfigError::InvalidKey));
+        assert!(matches!(
+            ArrowKey::from_str(""),
+            Err(ConfigError::InvalidKey)
+        ));
     }
 }
