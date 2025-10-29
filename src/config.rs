@@ -160,13 +160,17 @@ mod tests {
 
     #[test]
     fn test_arrow_key_from_str_invalid() {
-        let invalid_inputs = ["", "invalid", "up", "down"];
-        for input in invalid_inputs {
-            assert!(matches!(
-                ArrowKey::from_str(input),
-                Err(ConfigError::InvalidKey)
-            ));
-        }
+        assert!(ArrowKey::from_str("up").is_err());
+        assert!(ArrowKey::from_str("down").is_err());
+        assert!(ArrowKey::from_str("invalid").is_err());
+        assert!(ArrowKey::from_str("").is_err());
+        assert!(ArrowKey::from_str("invalid_key").is_err());
+
+        // Verify error type
+        assert!(matches!(
+            ArrowKey::from_str("invalid"),
+            Err(ConfigError::InvalidKey)
+        ));
     }
 
     #[test]
@@ -263,21 +267,5 @@ mod tests {
 
         // Clean up (remove the root directory)
         fs::remove_dir_all(&test_root).ok();
-    }
-
-    #[test]
-    fn test_arrow_key_invalid_returns_error() {
-        assert!(matches!(
-            ArrowKey::from_str("invalid_key"),
-            Err(ConfigError::InvalidKey)
-        ));
-    }
-
-    #[test]
-    fn test_arrow_key_empty_string_returns_error() {
-        assert!(matches!(
-            ArrowKey::from_str(""),
-            Err(ConfigError::InvalidKey)
-        ));
     }
 }
