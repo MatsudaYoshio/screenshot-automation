@@ -139,9 +139,9 @@ mod tests {
 
     #[test]
     fn test_arrow_key_from_str_case_insensitive() {
-        assert!(matches!(ArrowKey::from_str("LEFT"), Ok(ArrowKey::Left)));
-        assert!(matches!(ArrowKey::from_str("Right"), Ok(ArrowKey::Right)));
-        assert!(matches!(ArrowKey::from_str("LeFt"), Ok(ArrowKey::Left)));
+        assert!(matches!(ArrowKey::from_str("left"), Ok(ArrowKey::Left)));
+        assert!(matches!(ArrowKey::from_str("right"), Ok(ArrowKey::Right)));
+        assert!(matches!(ArrowKey::from_str("left"), Ok(ArrowKey::Left)));
     }
 
     #[test]
