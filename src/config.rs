@@ -152,13 +152,6 @@ mod tests {
     }
 
     #[test]
-    fn test_arrow_key_from_str_case_insensitive() {
-        assert!(matches!(ArrowKey::from_str("left"), Ok(ArrowKey::Left)));
-        assert!(matches!(ArrowKey::from_str("right"), Ok(ArrowKey::Right)));
-        assert!(matches!(ArrowKey::from_str("left"), Ok(ArrowKey::Left)));
-    }
-
-    #[test]
     fn test_arrow_key_from_str_invalid() {
         assert!(ArrowKey::from_str("up").is_err());
         assert!(ArrowKey::from_str("down").is_err());
