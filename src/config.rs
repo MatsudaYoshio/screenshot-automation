@@ -126,6 +126,20 @@ impl ArrowKey {
 mod tests {
     use super::*;
     use std::fs;
+    use std::time::SystemTime;
+
+    // Helper function to generate unique test directory names
+    fn create_unique_test_dir(prefix: &str) -> PathBuf {
+        let unique_name = format!(
+            "{}_{}",
+            prefix,
+            SystemTime::now()
+                .duration_since(SystemTime::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        );
+        std::env::temp_dir().join(unique_name)
+    }
 
     #[test]
     fn test_arrow_key_from_str_valid_left() {
@@ -210,12 +224,7 @@ mod tests {
 
     #[test]
     fn test_ensure_directory_exists_creates_new_directory() {
-        let test_dir = PathBuf::from("test_temp_dir_12345");
-
-        // Clean up if exists from previous test
-        if test_dir.exists() {
-            fs::remove_dir_all(&test_dir).ok();
-        }
+        let test_dir = create_unique_test_dir("test_temp_dir");
 
         // Test directory creation
         let result = Config::ensure_directory_exists(&test_dir);
@@ -228,7 +237,7 @@ mod tests {
 
     #[test]
     fn test_ensure_directory_exists_with_existing_directory() {
-        let test_dir = PathBuf::from("test_existing_dir_67890");
+        let test_dir = create_unique_test_dir("test_existing_dir");
 
         // Create directory first
         fs::create_dir_all(&test_dir).ok();
@@ -244,20 +253,16 @@ mod tests {
 
     #[test]
     fn test_ensure_directory_exists_with_nested_path() {
-        let test_dir = PathBuf::from("test_nested/sub1/sub2");
-
-        // Clean up if exists
-        if PathBuf::from("test_nested").exists() {
-            fs::remove_dir_all("test_nested").ok();
-        }
+        let test_root = create_unique_test_dir("test_nested");
+        let test_dir = test_root.join("sub1").join("sub2");
 
         // Test nested directory creation
         let result = Config::ensure_directory_exists(&test_dir);
         assert!(result.is_ok());
         assert!(test_dir.exists());
 
-        // Clean up
-        fs::remove_dir_all("test_nested").ok();
+        // Clean up (remove the root directory)
+        fs::remove_dir_all(&test_root).ok();
     }
 
     #[test]
