@@ -146,10 +146,13 @@ mod tests {
 
     #[test]
     fn test_arrow_key_from_str_invalid() {
-        assert!(ArrowKey::from_str("up").is_err());
-        assert!(ArrowKey::from_str("down").is_err());
-        assert!(ArrowKey::from_str("invalid").is_err());
-        assert!(ArrowKey::from_str("").is_err());
+        let invalid_inputs = ["", "invalid", "up", "down"];
+        for input in invalid_inputs {
+            assert!(matches!(
+                ArrowKey::from_str(input),
+                Err(ConfigError::InvalidKey)
+            ));
+        }
     }
 
     #[test]
