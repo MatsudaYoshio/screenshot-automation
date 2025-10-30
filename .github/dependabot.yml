@@ -17,12 +17,6 @@ updates:
       windows-dependencies:
         patterns:
           - "windows*"
-        update-types:
-          - "minor"
-          - "patch"
       all-dependencies:
         patterns:
           - "*"
-        update-types:
-          - "minor"
-          - "patch"
