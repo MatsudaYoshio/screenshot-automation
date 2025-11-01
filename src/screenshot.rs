@@ -1,13 +1,15 @@
-use crate::error::{CaptureError, SaveError};
-use std::fs::File;
-use std::io::Write;
-use std::path::Path;
-use windows::Win32::Foundation::HWND;
-use windows::Win32::Graphics::Gdi::{
-    BI_RGB, BITMAPINFO, BITMAPINFOHEADER, BitBlt, CreateCompatibleBitmap, CreateCompatibleDC,
-    DIB_RGB_COLORS, DeleteDC, DeleteObject, GetDC, GetDIBits, GetDeviceCaps, HBITMAP, HORZRES,
-    ReleaseDC, SRCCOPY, SelectObject, VERTRES,
+use std::{fs::File, io::Write, path::Path};
+
+use windows::Win32::{
+    Foundation::HWND,
+    Graphics::Gdi::{
+        BI_RGB, BITMAPINFO, BITMAPINFOHEADER, BitBlt, CreateCompatibleBitmap, CreateCompatibleDC,
+        DIB_RGB_COLORS, DeleteDC, DeleteObject, GetDC, GetDIBits, GetDeviceCaps, HBITMAP, HORZRES,
+        ReleaseDC, SRCCOPY, SelectObject, VERTRES,
+    },
 };
+
+use crate::error::{CaptureError, SaveError};
 
 pub struct ScreenshotCapture;
 

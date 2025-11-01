@@ -1,0 +1,23 @@
+# Rust formatting configuration
+# Requires nightly toolchain for advanced features
+
+# Group imports by std, external crates, and internal crates
+group_imports = "StdExternalCrate"
+
+# Merge imports from the same crate into a single use statement
+imports_granularity = "Crate"
+
+# Maximum line width
+max_width = 100
+
+# Use field init shorthand if possible
+use_field_init_shorthand = true
+
+# Use try shorthand
+use_try_shorthand = true
+
+# Format string literals where necessary
+format_strings = true
+
+# Reorder impl items
+reorder_impl_items = true

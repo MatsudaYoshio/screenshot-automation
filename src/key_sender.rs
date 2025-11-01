@@ -1,9 +1,9 @@
-use crate::config::ArrowKey;
-use crate::error::KeySendError;
 use windows::Win32::UI::Input::KeyboardAndMouse::{
     INPUT, INPUT_0, INPUT_KEYBOARD, KEYBDINPUT, KEYEVENTF_EXTENDEDKEY, KEYEVENTF_KEYUP, SendInput,
     VIRTUAL_KEY,
 };
+
+use crate::{config::ArrowKey, error::KeySendError};
 
 pub struct KeySender;
 

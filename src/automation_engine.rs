@@ -1,10 +1,9 @@
-use crate::config::Config;
-use crate::error::AppError;
-use crate::interrupt_monitor::InterruptMonitor;
-use crate::key_sender::KeySender;
-use crate::screenshot::ScreenshotCapture;
-use std::thread;
-use std::time::Duration;
+use std::{thread, time::Duration};
+
+use crate::{
+    config::Config, error::AppError, interrupt_monitor::InterruptMonitor, key_sender::KeySender,
+    screenshot::ScreenshotCapture,
+};
 
 pub struct AutomationEngine {
     config: Config,
