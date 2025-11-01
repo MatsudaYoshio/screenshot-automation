@@ -19,8 +19,13 @@ jobs:
           toolchain: stable
           components: rustfmt, clippy
 
+      - name: Setup Rust nightly toolchain
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt
+
       - name: Run rustfmt
-        run: cargo fmt --all -- --check
+        run: cargo +nightly fmt --all -- --check
 
       - name: Run clippy
         run: cargo clippy -- -D warnings
