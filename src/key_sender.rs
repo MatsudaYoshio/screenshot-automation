@@ -1,16 +1,16 @@
-use crate::config::ArrowKey;
-use crate::error::KeySendError;
 use windows::Win32::UI::Input::KeyboardAndMouse::{
-    SendInput, INPUT, INPUT_0, INPUT_KEYBOARD, KEYBDINPUT,
-    KEYEVENTF_EXTENDEDKEY, KEYEVENTF_KEYUP, VIRTUAL_KEY,
+    INPUT, INPUT_0, INPUT_KEYBOARD, KEYBDINPUT, KEYEVENTF_EXTENDEDKEY, KEYEVENTF_KEYUP, SendInput,
+    VIRTUAL_KEY,
 };
+
+use crate::{config::ArrowKey, error::KeySendError};
 
 pub struct KeySender;
 
 impl KeySender {
     pub fn send_arrow_key(key: ArrowKey) -> Result<(), KeySendError> {
         let vk_code = VIRTUAL_KEY(key.to_vk_code());
-        
+
         // Create key down event
         let input_down = INPUT {
             r#type: INPUT_KEYBOARD,
@@ -24,7 +24,7 @@ impl KeySender {
                 },
             },
         };
-        
+
         // Create key up event
         let input_up = INPUT {
             r#type: INPUT_KEYBOARD,
@@ -38,7 +38,7 @@ impl KeySender {
                 },
             },
         };
-        
+
         // Send key down event
         unsafe {
             let result = SendInput(&[input_down], std::mem::size_of::<INPUT>() as i32);
@@ -46,7 +46,7 @@ impl KeySender {
                 return Err(KeySendError::SendInputFailed);
             }
         }
-        
+
         // Send key up event
         unsafe {
             let result = SendInput(&[input_up], std::mem::size_of::<INPUT>() as i32);
@@ -54,7 +54,7 @@ impl KeySender {
                 return Err(KeySendError::SendInputFailed);
             }
         }
-        
+
         Ok(())
     }
 }

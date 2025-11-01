@@ -1,7 +1,10 @@
+use std::{
+    fs,
+    io::{self, Write},
+    path::PathBuf,
+};
+
 use crate::error::ConfigError;
-use std::fs;
-use std::io::{self, Write};
-use std::path::PathBuf;
 
 pub struct Config {
     pub target_key: ArrowKey,
@@ -124,9 +127,9 @@ impl ArrowKey {
 
 #[cfg(test)]
 mod tests {
+    use std::{fs, time::SystemTime};
+
     use super::*;
-    use std::fs;
-    use std::time::SystemTime;
 
     // Helper function to generate unique test directory names
     fn create_unique_test_dir(prefix: &str) -> PathBuf {

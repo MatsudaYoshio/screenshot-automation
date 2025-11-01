@@ -1,13 +1,15 @@
-use crate::error::{CaptureError, SaveError};
-use std::fs::File;
-use std::io::Write;
-use std::path::Path;
-use windows::Win32::Foundation::HWND;
-use windows::Win32::Graphics::Gdi::{
-    BitBlt, CreateCompatibleBitmap, CreateCompatibleDC, DeleteDC, DeleteObject, GetDC,
-    GetDIBits, GetDeviceCaps, ReleaseDC, SelectObject, BITMAPINFO, BITMAPINFOHEADER, BI_RGB,
-    DIB_RGB_COLORS, HBITMAP, HORZRES, SRCCOPY, VERTRES,
+use std::{fs::File, io::Write, path::Path};
+
+use windows::Win32::{
+    Foundation::HWND,
+    Graphics::Gdi::{
+        BI_RGB, BITMAPINFO, BITMAPINFOHEADER, BitBlt, CreateCompatibleBitmap, CreateCompatibleDC,
+        DIB_RGB_COLORS, DeleteDC, DeleteObject, GetDC, GetDIBits, GetDeviceCaps, HBITMAP, HORZRES,
+        ReleaseDC, SRCCOPY, SelectObject, VERTRES,
+    },
 };
+
+use crate::error::{CaptureError, SaveError};
 
 pub struct ScreenshotCapture;
 
@@ -31,14 +33,14 @@ impl ScreenshotCapture {
             // Get screen DC
             let screen_dc = GetDC(HWND(0));
             if screen_dc.is_invalid() {
-                return Err(CaptureError::GetDCFailed);
+                return Err(CaptureError::GetDC);
             }
 
             // Create compatible DC
             let mem_dc = CreateCompatibleDC(screen_dc);
             if mem_dc.is_invalid() {
                 let _ = ReleaseDC(HWND(0), screen_dc);
-                return Err(CaptureError::CreateCompatibleDCFailed);
+                return Err(CaptureError::CreateCompatibleDC);
             }
 
             // Get screen dimensions
@@ -50,7 +52,7 @@ impl ScreenshotCapture {
             if hbitmap.is_invalid() {
                 let _ = DeleteDC(mem_dc);
                 let _ = ReleaseDC(HWND(0), screen_dc);
-                return Err(CaptureError::CreateBitmapFailed);
+                return Err(CaptureError::CreateBitmap);
             }
 
             // Select bitmap into memory DC
@@ -64,7 +66,7 @@ impl ScreenshotCapture {
             let _ = ReleaseDC(HWND(0), screen_dc);
 
             if result.is_err() {
-                return Err(CaptureError::BitBltFailed);
+                return Err(CaptureError::BitBlt);
             }
 
             Ok(Bitmap {
@@ -91,7 +93,7 @@ impl ScreenshotCapture {
                     biHeight: bitmap.height,
                     biPlanes: 1,
                     biBitCount: 24, // 24-bit RGB
-                    biCompression: BI_RGB.0 as u32,
+                    biCompression: BI_RGB.0,
                     biSizeImage: 0,
                     biXPelsPerMeter: 0,
                     biYPelsPerMeter: 0,
