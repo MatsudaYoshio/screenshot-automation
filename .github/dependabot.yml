@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 20
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "dependabot"
+    rebase-strategy: auto
+    target-branch: "dev"
+    groups:
+      windows-dependencies:
+        patterns:
+          - "windows*"
