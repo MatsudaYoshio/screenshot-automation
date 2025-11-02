@@ -35,8 +35,15 @@ Before committing, format your code:
 cargo +nightly fmt
 ```
 
-Or install Git hooks for automatic formatting (requires Git Bash or WSL):
+Or install Git hooks for automatic formatting:
 
+For Windows PowerShell:
+```powershell
+# In PowerShell
+.\scripts\install-hooks.ps1
+```
+
+For Git Bash or WSL:
 ```bash
 # In Git Bash or WSL
 ./scripts/install-hooks.sh
