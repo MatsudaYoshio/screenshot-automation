@@ -17,8 +17,13 @@ cat > .git/hooks/pre-commit << 'EOF'
 #!/bin/bash
 # Pre-commit hook: Format code with nightly rustfmt
 
+set -e
+
 echo "Running cargo +nightly fmt..."
-cargo +nightly fmt --all
+if ! cargo +nightly fmt --all; then
+    echo "Error: cargo +nightly fmt failed. Please fix the errors and try again." >&2
+    exit 1
+fi
 
 # Add formatted files back to staging
 git add -u

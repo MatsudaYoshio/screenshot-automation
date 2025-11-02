@@ -17,8 +17,15 @@ if (-not (Test-Path $hooksDir)) {
 # PowerShell script for pre-commit hook
 $hookScriptContent = @"
 # Pre-commit hook: Format code with nightly rustfmt
+`$ErrorActionPreference = 'Stop'
+
 Write-Host "Running cargo +nightly fmt..."
 cargo +nightly fmt --all
+
+if (`$LASTEXITCODE -ne 0) {
+    Write-Host "Error: cargo +nightly fmt failed. Please fix the errors and try again." -ForegroundColor Red
+    exit 1
+}
 
 # Add formatted files back to staging
 git add -u
