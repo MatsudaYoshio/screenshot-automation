@@ -2,6 +2,12 @@
 
 Write-Host "Installing Git hooks..."
 
+# Ensure we are in a git repository
+if (-not (Test-Path ".git" -PathType Container)) {
+    Write-Error "Error: This script must be run from the root of the Git repository."
+    exit 1
+}
+
 # Create hooks directory if it doesn't exist
 $hooksDir = ".git/hooks"
 if (-not (Test-Path $hooksDir)) {

@@ -3,6 +3,12 @@
 
 echo "Installing Git hooks..."
 
+# Ensure we are in a git repository
+if [ ! -d ".git" ]; then
+    echo "Error: This script must be run from the root of the Git repository." >&2
+    exit 1
+fi
+
 # Create hooks directory if it doesn't exist
 mkdir -p .git/hooks
 
