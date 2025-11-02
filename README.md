@@ -27,6 +27,21 @@ cd screenshot-automation
 cargo build --release
 ```
 
+### For Developers
+
+Before committing, format your code:
+
+```powershell
+cargo +nightly fmt
+```
+
+Or install Git hooks for automatic formatting (requires Git Bash or WSL):
+
+```bash
+# In Git Bash or WSL
+./scripts/install-hooks.sh
+```
+
 ## Usage
 
 ```bash
